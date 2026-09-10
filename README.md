@@ -1,1 +1,115 @@
 # StayTrace
+
+**Visual evidence intelligence for shared living spaces.**
+
+StayTrace turns move-in and move-out photographs into a structured condition timeline. It combines deterministic computer vision with optional local multimodal AI so a user can answer questions such as:
+
+- What changed between two inspections?
+- Which issues were already documented at move-in?
+- Which item appears to be missing?
+- What evidence supports a condition assessment?
+- Which findings require manual review?
+
+The application is designed to keep inspection media local. The core comparison engine works without any cloud service. For Snapdragon deployment, an optional Qualcomm GenieX adapter can load a Qualcomm AI Hub / GenieX VLM such as Qwen3-VL-4B-Instruct when that runtime and artifact are available on the target Windows ARM64 machine.
+
+## What is included
+
+- Streamlit desktop-style web UI
+- Move-in / move-out inspection workflow
+- Local SQLite evidence store
+- Image alignment and semantic change scoring
+- Region-level difference heatmaps
+- Evidence timeline
+- Claim/evidence analysis
+- PDF report generation
+- JSON export
+- Demo dataset generator
+- Benchmark instrumentation
+- Qualcomm GenieX VLM adapter
+- Automatic runtime diagnostics
+- Unit tests
+
+## Important deployment note
+
+This repository is intentionally **hardware-agnostic at the application layer**. It can be developed and tested on a normal Windows x64 PC. The Qualcomm adapter is isolated so the same product can be validated later on a supported Snapdragon Windows ARM64 device.
+
+The repository does **not** claim that Snapdragon inference has been verified on your Intel HP Victus. Snapdragon validation must be performed on an actual qualifying Snapdragon system or an authorized Qualcomm device environment before any submission claim is made.
+
+## Quick start on your current PC
+
+Python 3.10–3.12 is recommended.
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+python scripts\generate_demo.py
+streamlit run app.py
+```
+
+The demo generator creates two synthetic room photographs with controlled changes, so the application can be tested immediately without waiting for a real model download.
+
+## Run tests
+
+```powershell
+pip install -r requirements-dev.txt
+pytest -q
+```
+
+## Snapdragon / GenieX mode
+
+Qualcomm's current GenieX Python package exposes a Transformers-like `AutoModelForCausalLM.from_pretrained()` surface and supports multimodal image inputs. The application adapter in `staytrace/ai/geniex_adapter.py` follows that public surface.
+
+On a supported Snapdragon Windows ARM64 environment, install the Qualcomm package appropriate to the backend documented by Qualcomm, then configure:
+
+```text
+STAYTRACE_AI_BACKEND=geniex
+STAYTRACE_GENIEX_MODEL=ai-hub-models/Qwen3-VL-4B-Instruct
+STAYTRACE_GENIEX_DEVICE_MAP=qairt
+```
+
+The adapter fails gracefully and the app falls back to deterministic CV if the runtime cannot be loaded. That behavior is intentional: it allows end-to-end product testing before Snapdragon validation.
+
+## Architecture
+
+```text
+Images / camera uploads
+          |
+          v
+   Media normalization
+          |
+          v
+      CV alignment
+          |
+          v
+   Candidate differences
+          |
+      +---+---+
+      |       |
+      v       v
+    OCR      VLM (optional)
+      |       |
+      +---+---+
+          |
+          v
+     Room State Model
+          |
+          v
+      Evidence Graph
+          |
+     +----+----+-----+
+     |    |    |     |
+    Diff Timeline Claims Report
+          |
+          v
+       SQLite / JSON
+```
+
+## Safety and scope
+
+StayTrace is an evidence organization and visual comparison prototype. It does not determine legal responsibility, prove causation, or provide legal advice. Conclusions are explicitly classified as observed, matched, inferred, or inconclusive and can be manually reviewed.
+
+## License
+
+MIT for the application code. Third-party models and runtimes keep their own licenses and terms; inspect those terms before redistribution or commercial deployment.

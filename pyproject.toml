@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "staytrace-ai"
+version = "1.0.0"
+description = "Local visual evidence intelligence for move-in/move-out condition records"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "streamlit>=1.38,<2",
+  "opencv-python>=4.9,<5",
+  "numpy>=1.26,<3",
+  "Pillow>=10,<13",
+  "scikit-image>=0.24,<1",
+  "reportlab>=4.2,<5",
+  "pydantic>=2.7,<3",
+]
+
+[project.optional-dependencies]
+qualcomm = ["geniex>=0.1"]
+
+dev = ["pytest>=8,<9", "ruff>=0.6,<1"]
+
+[project.scripts]
+staytrace = "staytrace.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["staytrace*"]
