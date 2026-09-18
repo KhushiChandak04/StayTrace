@@ -1,0 +1,2 @@
+[console_scripts]
+staytrace = staytrace.cli:main

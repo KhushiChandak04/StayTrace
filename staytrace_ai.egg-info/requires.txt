@@ -1,0 +1,14 @@
+streamlit<2,>=1.38
+opencv-python<5,>=4.9
+numpy<3,>=1.26
+Pillow<13,>=10
+scikit-image<1,>=0.24
+reportlab<5,>=4.2
+pydantic<3,>=2.7
+
+[dev]
+pytest<9,>=8
+ruff<1,>=0.6
+
+[qualcomm]
+geniex>=0.1
