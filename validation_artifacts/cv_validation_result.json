@@ -1,0 +1,88 @@
+{
+  "tests_passed": 6,
+  "alignment": {
+    "method": "orb-homography",
+    "confidence": 0.9626
+  },
+  "difference": {
+    "score": 0.0263,
+    "changed_area_ratio": 0.0425,
+    "bbox": [
+      427,
+      277,
+      197,
+      197
+    ]
+  },
+  "candidate_regions": 5,
+  "regions": [
+    {
+      "id": "region-4",
+      "bbox": [
+        427,
+        277,
+        197,
+        197
+      ],
+      "area_ratio": 0.0263
+    },
+    {
+      "id": "region-2",
+      "bbox": [
+        477,
+        497,
+        92,
+        67
+      ],
+      "area_ratio": 0.0065
+    },
+    {
+      "id": "region-5",
+      "bbox": [
+        397,
+        142,
+        127,
+        112
+      ],
+      "area_ratio": 0.0041
+    },
+    {
+      "id": "region-1",
+      "bbox": [
+        602,
+        527,
+        57,
+        57
+      ],
+      "area_ratio": 0.0028
+    },
+    {
+      "id": "region-3",
+      "bbox": [
+        801,
+        393,
+        169,
+        57
+      ],
+      "area_ratio": 0.0028
+    }
+  ],
+  "fallback_findings": [
+    {
+      "object_label": "change candidate",
+      "status": "uncertain",
+      "confidence": 0.614,
+      "explanation": "A visual change candidate was detected by deterministic image comparison. Object identity and whether the condition is new, pre-existing, or missing require semantic VLM analysis or manual review.",
+      "move_in_image": "data/demo/move_in_room.jpg",
+      "move_out_image": "data/demo/move_out_room.jpg",
+      "region": {
+        "x": 427,
+        "y": 277,
+        "width": 197,
+        "height": 197
+      },
+      "evidence_ids": [],
+      "review_required": true
+    }
+  ]
+}
